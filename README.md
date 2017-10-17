@@ -1,22 +1,25 @@
 # DiabetesDoc
 
-*Copyright 2017 Stephan Lunowa*
+*Copyright 2013-2017 Stephan Lunowa*
 
-Content
+###Content
 * What is DiabetesDoc
-* Installation
+* Installation and dependencies
 * Usage
-* Licence
+* License
 
 ## What is DiabetesDoc
 DiabetesDoc is a software to save and transform the data of your diabetes therapy which are read by a Accu-Chek
 SmartPix device. This software can automatically save the data from the SmartPix device on your hard drive in a
-format which is also compatible for use with unix/linux. Additional Output of the data as diary in .PDF-format 
+format which is also compatible for use with Unix/Linux. Additional Output of the data as diary in .PDF-format 
 is possible.
 
-## Installation
+## Installation and dependencies
+For this software, you need to have a current *Java Runtime* as well as *bash* installed. *convert* is recommended,
+but not necessary. Additionally you need an Accu-Chek SmartPix device.
+
 To install the software in a local directory, you need to clone or download the git project and run the `install.sh`
-script in its main directory. Additionally you need a current install of *python3* and a Accu-Chek SmartPix device.
+script in its main directory.
 
 ## Usage
 After you have read your devices with the Accu-Chek SmartPix device, you have to start the script
@@ -27,7 +30,7 @@ If you want to create a *diary* in .PDF-format, run the script `script/diary.py`
 dialog. The file will then be created in the *pdf* directory.
 **This function is currently not supported but will be implemented soon.**
 
-## Licence
+## License
 
 DiabetesDoc is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

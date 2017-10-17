@@ -1,0 +1,7 @@
+<!ELEMENT bolusfactor	(period*)>
+<!ELEMENT period		EMPTY>
+
+<!ATTLIST bolusfactor	begin	CDATA #REQUIRED>
+
+<!ATTLIST period	begin		CDATA #REQUIRED>
+<!ATTLIST period	khfactor	CDATA #REQUIRED>
