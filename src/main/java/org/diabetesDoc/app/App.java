@@ -21,8 +21,6 @@ package org.diabetesDoc.app;
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-import java.io.File;
-
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -39,29 +37,29 @@ public final class App {
   public static void main(String[] args) {
     DiabetesDoc.loadSettings();
     setLookAndFeel();
-	  if(args.length > 0 && args[0].equalsIgnoreCase("--remind")) {
-		  if(Reminder.isAfterRemindingDate())
-			  SwingUtilities.invokeLater( new Runnable(){ @Override public void run() { new Reminder(); } } );
-	  } else {
-		  SwingUtilities.invokeLater(new Runnable() {
-			  @Override public void run() {
-			    DiabetesDoc dd = new DiabetesDoc();
-				  if(Reminder.isAfterRemindingDate()) {
-					  Dialogs.showInfoMsg("%info.remind.ttl%", "%info.remind.msg%", dd);
-				  }
-			  }
-		  });
-	  }
+    if(args.length > 0 && args[0].equalsIgnoreCase("--remind")) {
+      if(Reminder.isAfterRemindingDate())
+        SwingUtilities.invokeLater( new Runnable(){ @Override public void run() { new Reminder(); } } );
+    } else {
+      SwingUtilities.invokeLater(new Runnable() {
+        @Override public void run() {
+          DiabetesDoc dd = new DiabetesDoc();
+          if(Reminder.isAfterRemindingDate()) {
+            Dialogs.showInfoMsg("%info.remind.ttl%", "%info.remind.msg%", dd);
+          }
+        }
+      });
+    }
   }
 
   /**
    * Applies the system's own {@link javax.swing.LookAndFeel}.
    */
   private static void setLookAndFeel() {
-	  try {
-		  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	  } catch (Exception e) {
-		  System.err.println("Could not load the system's LookAndFeel.");
-	  }
+    try {
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    } catch (Exception e) {
+      System.err.println("Could not load the system's LookAndFeel.");
+    }
   }
 }

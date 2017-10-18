@@ -30,159 +30,159 @@ import java.util.List;
  * @version 2.1 - last modified 2014-03-26
  */
 public class TableFactory {
-	/**
-	 * No constructor, only static methods.
-	 */
-	private TableFactory() {}
+  /**
+   * No constructor, only static methods.
+   */
+  private TableFactory() {}
 
-	/**
-	 * Creates a new Table from the given XML-Document.
-	 *
-	 * @param xmlFile a XML-{@code java.io.File} with the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
-	 *
-	 */
-	static List<Table> createTables(java.io.File xmlFile) throws java.io.IOException, org.jdom2.JDOMException {
-		return createTables(XML_IO.SAX_BUILDER.build(xmlFile));
-	}
+  /**
+   * Creates a new Table from the given XML-Document.
+   *
+   * @param xmlFile a XML-{@code java.io.File} with the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
+   *
+   */
+  static List<Table> createTables(java.io.File xmlFile) throws java.io.IOException, org.jdom2.JDOMException {
+    return createTables(XML_IO.SAX_BUILDER.build(xmlFile));
+  }
 
-	/**
-	 * Creates a new {@link Table} from the given XML-Document.
-	 *
-	 * @param xmlDoc a XML-{@link org.jdom2.Document} with the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
-	 */
-	public static List<Table> createTables(org.jdom2.Document xmlDoc) {
-		List<Table> tables = new java.util.ArrayList<>();
-		Table.Column c;
-		Table t;
+  /**
+   * Creates a new {@link Table} from the given XML-Document.
+   *
+   * @param xmlDoc a XML-{@link org.jdom2.Document} with the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
+   */
+  public static List<Table> createTables(org.jdom2.Document xmlDoc) {
+    List<Table> tables = new java.util.ArrayList<>();
+    Table.Column c;
+    Table t;
 
-		t = new Table(xmlDoc.getRootElement().getAttributeValue("Dt"));
-		tables.add(t);
+    t = new Table(xmlDoc.getRootElement().getAttributeValue("Dt"));
+    tables.add(t);
 
-		for(org.jdom2.Element e : xmlDoc.getRootElement().getChildren()) {
+    for(org.jdom2.Element e : xmlDoc.getRootElement().getChildren()) {
 
-			String time, cmd, remark;
-			switch(e.getName()) {
-			case "BG":
-				// the amount of glucose in the blood
-				String value = e.getAttributeValue("Val");
-				// the time
-				time = e.getAttributeValue("Tm");
-				// flag for special moments (e.g. M1 = before meal)
-				//String flag = e.getAttributeValue("Flg");
-				// if an control was done
-				String ctrl = e.getAttributeValue("Ctrl");
-				// the amount of carbohydrates in gram
-				String carb = e.getAttributeValue("Carb");
-				// the insulin amount from manual disposal // TODO: ensure
-				String insulin1 = e.getAttributeValue("Ins1");
-				// the insulin amount from manual disposal // TODO: ensure
-				String insulin2 = e.getAttributeValue("Ins2");
-				// the insulin amount from manual disposal // TODO: ensure
-				String insulin3 = e.getAttributeValue("Ins3");
-				// an event (e.g sports)
-				String event = e.getAttributeValue("Evt");
-				// the meter device
-				//String d = e.getAttributeValue("D");
-				if(ctrl == null || ctrl.trim().isEmpty()) {
-					c = new Table.Column(time, (value.equals("---") ? "" : value),
-							(insulin1 == null ? "" : insulin1)
-									+ (insulin2 == null ? "" : insulin2)
-									+ (insulin3 == null ? "" : insulin3),
-							(carb == null ? "" : String.format("%1.1f", Integer.parseInt(carb) / 12.0)));
-					if(!t.addColumn(c)) {
-						t = new Table(t.getDate(), t.getBR());
-						tables.add(t);
-						t.addColumn(c);
-					}
-				} else {
-					t.addRemark(time, "Ctrl: " + value);
-				}
-				break;
-			case "BOLUS":
-				// the time
-				time = e.getAttributeValue("Tm");
-				// the type of insulin disposal
-				String type = e.getAttributeValue("type");
-				// TODO: add info
-				cmd			= e.getAttributeValue("cmd");
-				// the insulin amount
-				String amount = e.getAttributeValue("amount");
-				// a comment
-				remark = e.getAttributeValue("remark");
+      String time, cmd, remark;
+      switch(e.getName()) {
+      case "BG":
+        // the amount of glucose in the blood
+        String value = e.getAttributeValue("Val");
+        // the time
+        time = e.getAttributeValue("Tm");
+        // flag for special moments (e.g. M1 = before meal)
+        //String flag = e.getAttributeValue("Flg");
+        // if an control was done
+        String ctrl = e.getAttributeValue("Ctrl");
+        // the amount of carbohydrates in gram
+        String carb = e.getAttributeValue("Carb");
+        // the insulin amount from manual disposal // TODO: ensure
+        String insulin1 = e.getAttributeValue("Ins1");
+        // the insulin amount from manual disposal // TODO: ensure
+        String insulin2 = e.getAttributeValue("Ins2");
+        // the insulin amount from manual disposal // TODO: ensure
+        String insulin3 = e.getAttributeValue("Ins3");
+        // an event (e.g sports)
+        String event = e.getAttributeValue("Evt");
+        // the meter device
+        //String d = e.getAttributeValue("D");
+        if(ctrl == null || ctrl.trim().isEmpty()) {
+          c = new Table.Column(time, (value.equals("---") ? "" : value),
+            	(insulin1 == null ? "" : insulin1)
+            			+ (insulin2 == null ? "" : insulin2)
+            			+ (insulin3 == null ? "" : insulin3),
+            	(carb == null ? "" : String.format("%1.1f", Integer.parseInt(carb) / 12.0)));
+          if(!t.addColumn(c)) {
+            t = new Table(t.getDate(), t.getBR());
+            tables.add(t);
+            t.addColumn(c);
+          }
+        } else {
+          t.addRemark(time, "Ctrl: " + value);
+        }
+        break;
+      case "BOLUS":
+        // the time
+        time = e.getAttributeValue("Tm");
+        // the type of insulin disposal
+        String type = e.getAttributeValue("type");
+        // TODO: add info
+        cmd    	= e.getAttributeValue("cmd");
+        // the insulin amount
+        String amount = e.getAttributeValue("amount");
+        // a comment
+        remark = e.getAttributeValue("remark");
 
-				if(time.isEmpty()) {
-					//t.addComment(remark, amount); // optional BOLUS total + BASAL total
-				} else {
-					c = new Table.Column(time, "", amount, "");
-					if(!t.addColumn(c)) {
-						t = new Table(t.getDate(), t.getBR());
-						tables.add(t);
-						t.addColumn(c);
-					}
-				}
-				break;
-			case "BASAL":
-				// the time
-				time = e.getAttributeValue("Tm");
-				// the current amount for the BR (in IU/h)
-				//String cbrf = e.getAttributeValue("cbrf");
-				// the percentage of the temporary decrease of the BR
-				String tBRdec = e.getAttributeValue("TBRdec");
-				// the percentage of the temporary increase of the BR
-				String tBRinc = e.getAttributeValue("TBRinc");
-				// the active BR profile
-				String profile = e.getAttributeValue("profile");
-				// TODO: add info
-				cmd = e.getAttributeValue("cmd");
-				// a comment
-				remark = e.getAttributeValue("remark");
+        if(time.isEmpty()) {
+          //t.addComment(remark, amount); // optional BOLUS total + BASAL total
+        } else {
+          c = new Table.Column(time, "", amount, "");
+          if(!t.addColumn(c)) {
+            t = new Table(t.getDate(), t.getBR());
+            tables.add(t);
+            t.addColumn(c);
+          }
+        }
+        break;
+      case "BASAL":
+        // the time
+        time = e.getAttributeValue("Tm");
+        // the current amount for the BR (in IU/h)
+        //String cbrf = e.getAttributeValue("cbrf");
+        // the percentage of the temporary decrease of the BR
+        String tBRdec = e.getAttributeValue("TBRdec");
+        // the percentage of the temporary increase of the BR
+        String tBRinc = e.getAttributeValue("TBRinc");
+        // the active BR profile
+        String profile = e.getAttributeValue("profile");
+        // TODO: add info
+        cmd = e.getAttributeValue("cmd");
+        // a comment
+        remark = e.getAttributeValue("remark");
 
-				if(profile != null) {
-					if(t.getBR() == null)
-						t.setBR(profile);
-					else if(!t.getBR().equals(profile))
-						t.addRemark(time, Utils.localize("%output.brChanged%") + profile);
-				}
-				if(remark != null && (remark.equals("Run") || remark.equals("Stop"))) {
-					t.addRemark(time, Utils.localize("%output.pump" + remark + "%"));
-				} else if(remark != null && remark.matches("changed \\d")) {
-					if(!t.getBR().equals("" + remark.charAt(8)))
-						t.addRemark(time, Utils.localize("%output.brChanged%")
-								+ " " + remark.charAt(8));
-				} else if(tBRdec != null && (remark != null || time.equals("00:00"))) {
-					t.addRemark(time, "TBR " + tBRdec);
-				} else if(tBRinc != null && (remark != null || time.equals("00:00"))) {
-					t.addRemark(time, "TBR " + tBRinc);
-				} else if(remark != null && remark.startsWith("TBR End")){
-					t.addRemark(time, Utils.localize("%output.tbrEnd%"));
-				} else {
-					// TODO implement other basal data
-				}
-				break;
-			case "EVENT":
-				// the time
-				time		= e.getAttributeValue("Tm");
-				// a short info (e.g. E1, W8, ... or 1.2IU)
-				String shortinfo = e.getAttributeValue("shortinfo");
-				// the event's description
-				String description = e.getAttributeValue("description");
+        if(profile != null) {
+          if(t.getBR() == null)
+            t.setBR(profile);
+          else if(!t.getBR().equals(profile))
+            t.addRemark(time, Utils.localize("%output.brChanged%") + profile);
+        }
+        if(remark != null && (remark.equals("Run") || remark.equals("Stop"))) {
+          t.addRemark(time, Utils.localize("%output.pump" + remark + "%"));
+        } else if(remark != null && remark.matches("changed \\d")) {
+          if(!t.getBR().equals("" + remark.charAt(8)))
+            t.addRemark(time, Utils.localize("%output.brChanged%")
+            		+ " " + remark.charAt(8));
+        } else if(tBRdec != null && (remark != null || time.equals("00:00"))) {
+          t.addRemark(time, "TBR " + tBRdec);
+        } else if(tBRinc != null && (remark != null || time.equals("00:00"))) {
+          t.addRemark(time, "TBR " + tBRinc);
+        } else if(remark != null && remark.startsWith("TBR End")){
+          t.addRemark(time, Utils.localize("%output.tbrEnd%"));
+        } else {
+          // TODO implement other basal data
+        }
+        break;
+      case "EVENT":
+        // the time
+        time    = e.getAttributeValue("Tm");
+        // a short info (e.g. E1, W8, ... or 1.2IU)
+        String shortinfo = e.getAttributeValue("shortinfo");
+        // the event's description
+        String description = e.getAttributeValue("description");
 
-				if(shortinfo == null) {// e.g. for cartridge changed
-					if(!description.equals("cartridge changed"))
-						t.addRemark(time, description);
-				} else if(shortinfo.equals("E4")) {		// E4 == occlusion
-					t.addRemark(time, Utils.localize("%output.occlusion%"));
-				} else if(shortinfo.endsWith("IU")) {	// prime infusion-set
-					t.addRemark(time, Utils.localize("%output.prime%"));
-				} else if(!( shortinfo.equals("E1")		// E1 == cartridge empty
-						|| shortinfo.equals("W1")		// W1 == cartridge low
-						|| shortinfo.equals("W2")		// W2 == battery low
-						|| shortinfo.equals("W8"))) {	// W8 == bolus cancelled
-					t.addRemark(time, description + " (" + shortinfo + ")");
-				}
-				break;
-			}
-		}
-		return tables;
-	}
+        if(shortinfo == null) {// e.g. for cartridge changed
+          if(!description.equals("cartridge changed"))
+            t.addRemark(time, description);
+        } else if(shortinfo.equals("E4")) {    // E4 == occlusion
+          t.addRemark(time, Utils.localize("%output.occlusion%"));
+        } else if(shortinfo.endsWith("IU")) {  // prime infusion-set
+          t.addRemark(time, Utils.localize("%output.prime%"));
+        } else if(!( shortinfo.equals("E1")    // E1 == cartridge empty
+            || shortinfo.equals("W1")		// W1 == cartridge low
+            || shortinfo.equals("W2")		// W2 == battery low
+            || shortinfo.equals("W8"))) {	// W8 == bolus cancelled
+          t.addRemark(time, description + " (" + shortinfo + ")");
+        }
+        break;
+      }
+    }
+    return tables;
+  }
 }

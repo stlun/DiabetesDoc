@@ -41,7 +41,7 @@ import javax.swing.UIManager;
  * @version 2.1 - last modified 2014-03-17
  */
 final class XMLEditorKit extends StyledEditorKit implements ViewFactory {
-	/** @see Serializable */
+  /** @see Serializable */
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -66,99 +66,99 @@ final class XMLEditorKit extends StyledEditorKit implements ViewFactory {
      * @version 2.1 - last modified 2014-03-12
      */
     private static class XMLView extends PlainView {
-    	/** The Colors for the different patterns. */
-    	private static HashMap<Pattern, Color> patternColors = new HashMap<Pattern, Color>();
+      /** The Colors for the different patterns. */
+      private static HashMap<Pattern, Color> patternColors = new HashMap<Pattern, Color>();
 
-    	/** The pattern for XML-names. */
-    	private static String XML_NAME = "[A-Za-z]+[\\w\\d\\-]*";
-    	/** The pattern for generic XML-names. */
-    	private static String GENERIC_XML_NAME = XML_NAME + "(:" + XML_NAME + ")?";
-    	/** The pattern for tags. */
-    	private static String TAG_PATTERN = "(\\</?" + GENERIC_XML_NAME + "\\s*\\>?)";
-    	/** The pattern for tag-ends. */
-    	private static String TAG_END_PATTERN = "(/>)";
-    	/** The pattern for attributes in tags. */
-    	//private static String TAG_ATTRIBUTE_PATTERN = "(" + GENERIC_XML_NAME + ")\\=";
-    	/** The pattern for attribute-values in tags. */
-    	private static String TAG_ATTRIBUTE_VALUE = "\\w*\\=\\w*((\"[^\"]*\")|('[^']*'))";
+      /** The pattern for XML-names. */
+      private static String XML_NAME = "[A-Za-z]+[\\w\\d\\-]*";
+      /** The pattern for generic XML-names. */
+      private static String GENERIC_XML_NAME = XML_NAME + "(:" + XML_NAME + ")?";
+      /** The pattern for tags. */
+      private static String TAG_PATTERN = "(\\</?" + GENERIC_XML_NAME + "\\s*\\>?)";
+      /** The pattern for tag-ends. */
+      private static String TAG_END_PATTERN = "(/>)";
+      /** The pattern for attributes in tags. */
+      //private static String TAG_ATTRIBUTE_PATTERN = "(" + GENERIC_XML_NAME + ")\\=";
+      /** The pattern for attribute-values in tags. */
+      private static String TAG_ATTRIBUTE_VALUE = "\\w*\\=\\w*((\"[^\"]*\")|('[^']*'))";
 
-    	/**
-    	 * Initializes the colors for the patterns.
-    	 */
-    	static {
-    		patternColors.put(Pattern.compile(TAG_PATTERN), Color.BLUE);
-    		//patternColors.put(Pattern.compile(TAG_ATTRIBUTE_PATTERN), Color.BLACK);
-    		patternColors.put(Pattern.compile(TAG_END_PATTERN), Color.BLUE);
-    		patternColors.put(Pattern.compile(TAG_ATTRIBUTE_VALUE), Color.GREEN);
+      /**
+       * Initializes the colors for the patterns.
+       */
+      static {
+        patternColors.put(Pattern.compile(TAG_PATTERN), Color.BLUE);
+        //patternColors.put(Pattern.compile(TAG_ATTRIBUTE_PATTERN), Color.BLACK);
+        patternColors.put(Pattern.compile(TAG_END_PATTERN), Color.BLUE);
+        patternColors.put(Pattern.compile(TAG_ATTRIBUTE_VALUE), Color.GREEN);
 
-    	}
+      }
 
-    	public XMLView(Element element) {
-    		super(element);
+      public XMLView(Element element) {
+        super(element);
 
-    		// Set tabsize to 4 (instead of the default 8)
-    		getDocument().putProperty(PlainDocument.tabSizeAttribute, 4);
-    	}
+        // Set tabsize to 4 (instead of the default 8)
+        getDocument().putProperty(PlainDocument.tabSizeAttribute, 4);
+      }
 
-    	/**
-    	 * Draws the unselected Text using the patterns to determine the texts color.
-    	 * <p>
-    	 * <b>Original specification:</b> {@inheritDoc}
-    	 */
-    	@Override
-    	protected int drawUnselectedText(Graphics graphics, int x, int y, int p0,
-    			int p1) throws BadLocationException {
+      /**
+       * Draws the unselected Text using the patterns to determine the texts color.
+       * <p>
+       * <b>Original specification:</b> {@inheritDoc}
+       */
+      @Override
+      protected int drawUnselectedText(Graphics graphics, int x, int y, int p0,
+          int p1) throws BadLocationException {
 
-    		Document doc = getDocument();
-    		String text = doc.getText(p0, p1 - p0);
+        Document doc = getDocument();
+        String text = doc.getText(p0, p1 - p0);
 
-    		Segment segment = getLineBuffer();
+        Segment segment = getLineBuffer();
 
-    		SortedMap<Integer, Integer> startMap = new TreeMap<Integer, Integer>();
-    		SortedMap<Integer, Color> colorMap = new TreeMap<Integer, Color>();
+        SortedMap<Integer, Integer> startMap = new TreeMap<Integer, Integer>();
+        SortedMap<Integer, Color> colorMap = new TreeMap<Integer, Color>();
 
-    		// Match all regexes on this snippet, store positions
-    		for (Map.Entry<Pattern, Color> entry : patternColors.entrySet()) {
+        // Match all regexes on this snippet, store positions
+        for (Map.Entry<Pattern, Color> entry : patternColors.entrySet()) {
 
-    			Matcher matcher = entry.getKey().matcher(text);
+          Matcher matcher = entry.getKey().matcher(text);
 
-    			while (matcher.find()) {
-    				startMap.put(matcher.start(1), matcher.end());
-    				colorMap.put(matcher.start(1), entry.getValue());
-    			}
-    		}
+          while (matcher.find()) {
+            startMap.put(matcher.start(1), matcher.end());
+            colorMap.put(matcher.start(1), entry.getValue());
+          }
+        }
 
-    		// TODO: check the map for overlapping parts
+        // TODO: check the map for overlapping parts
 
-    		int i = 0;
-    		Color defaultColor = UIManager.getColor("Panel.foreground");
-    		// Color the parts
-    		for (Map.Entry<Integer, Integer> entry : startMap.entrySet()) {
-    			int start = entry.getKey();
-    			int end = entry.getValue();
+        int i = 0;
+        Color defaultColor = UIManager.getColor("Panel.foreground");
+        // Color the parts
+        for (Map.Entry<Integer, Integer> entry : startMap.entrySet()) {
+          int start = entry.getKey();
+          int end = entry.getValue();
 
-    			// Paint possible text in the front
-    		   if (i < start) {
-    				graphics.setColor(defaultColor);
-    				doc.getText(p0 + i, start - i, segment);
-    				x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
-    			}
+          // Paint possible text in the front
+           if (i < start) {
+            graphics.setColor(defaultColor);
+            doc.getText(p0 + i, start - i, segment);
+            x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
+          }
 
-    			graphics.setColor(colorMap.get(start));
-    			i = end;
-    			doc.getText(p0 + start, i - start, segment);
-    			x = Utilities.drawTabbedText(segment, x, y, graphics, this, start);
-    		}
+          graphics.setColor(colorMap.get(start));
+          i = end;
+          doc.getText(p0 + start, i - start, segment);
+          x = Utilities.drawTabbedText(segment, x, y, graphics, this, start);
+        }
 
-    		// Paint possible remaining text
-    		if (i < text.length()) {
-    			graphics.setColor(defaultColor);
-    			doc.getText(p0 + i, text.length() - i, segment);
-    			x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
-    		}
+        // Paint possible remaining text
+        if (i < text.length()) {
+          graphics.setColor(defaultColor);
+          doc.getText(p0 + i, text.length() - i, segment);
+          x = Utilities.drawTabbedText(segment, x, y, graphics, this, i);
+        }
 
-    		return x;
-    	}
+        return x;
+      }
     }
 
 }

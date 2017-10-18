@@ -1,9 +1,9 @@
 # created data
 pdf/
 xml/
-!xml/day.xsl
 reports/
 !reports/replaceBitmaps.sh
+DiabetesDoc.properties
 
 # documentation and settings
 .classpath

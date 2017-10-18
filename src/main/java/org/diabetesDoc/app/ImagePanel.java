@@ -30,35 +30,35 @@ import javax.swing.text.JTextComponent;
  * @version 2.1 - last modified 2014-03-19
  */
 final class ImagePanel extends javax.swing.JPanel {
-	/** @see java.io.Serializable */
-	private static final long serialVersionUID = 1L;
+  /** @see java.io.Serializable */
+  private static final long serialVersionUID = 1L;
 
-	private JTextComponent textComp;
+  private JTextComponent textComp;
 
-	ImagePanel(JTextComponent textComp) {
-		this.textComp = textComp;
-		setMinimumSize(new java.awt.Dimension(ImageFactory.IMAGE_WIDTH/8, ImageFactory.IMAGE_HEIGHT/8));
-	}
+  ImagePanel(JTextComponent textComp) {
+    this.textComp = textComp;
+    setMinimumSize(new java.awt.Dimension(ImageFactory.IMAGE_WIDTH/8, ImageFactory.IMAGE_HEIGHT/8));
+  }
 
-	@Override
-	protected void paintComponent(java.awt.Graphics g) {
-		super.paintComponent(g);
-		int width, height;
-		if(getWidth() * ImageFactory.IMAGE_HEIGHT < getHeight() * ImageFactory.IMAGE_WIDTH) {
-			width = getWidth();
-			height = ImageFactory.IMAGE_HEIGHT*getWidth()/ImageFactory.IMAGE_WIDTH;
-		} else {
-			width = ImageFactory.IMAGE_WIDTH*getHeight()/ImageFactory.IMAGE_HEIGHT;
-			height = getHeight();
-		}
+  @Override
+  protected void paintComponent(java.awt.Graphics g) {
+    super.paintComponent(g);
+    int width, height;
+    if(getWidth() * ImageFactory.IMAGE_HEIGHT < getHeight() * ImageFactory.IMAGE_WIDTH) {
+      width = getWidth();
+      height = ImageFactory.IMAGE_HEIGHT*getWidth()/ImageFactory.IMAGE_WIDTH;
+    } else {
+      width = ImageFactory.IMAGE_WIDTH*getHeight()/ImageFactory.IMAGE_HEIGHT;
+      height = getHeight();
+    }
 
-		try {
-			g.drawImage(ImageFactory.getImage(textComp.getText()),
-					(getWidth() - width)/2,(getHeight() - height)/2, width, height, this);
-		} catch(Exception e) {
-			g.setColor(java.awt.Color.RED);
-			g.drawString(Utils.localize("%error.xml.notValid%"), 10, 20);
-			g.drawString(e.getMessage(), 10, 40);
-		}
-	}
+    try {
+      g.drawImage(ImageFactory.getImage(textComp.getText()),
+          (getWidth() - width)/2,(getHeight() - height)/2, width, height, this);
+    } catch(Exception e) {
+      g.setColor(java.awt.Color.RED);
+      g.drawString(Utils.localize("%error.xml.notValid%"), 10, 20);
+      g.drawString(e.getMessage(), 10, 40);
+    }
+  }
 }

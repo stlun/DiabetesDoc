@@ -35,66 +35,66 @@ import javax.swing.KeyStroke;
  * @version 2.1 - last modified 2014-03-12
  */
 final class MenuFactory {
-	/** No constructor, only static methods. */
-	private MenuFactory() {}
+  /** No constructor, only static methods. */
+  private MenuFactory() {}
 
-	static JMenuBar getMenuBar(DiabetesDoc dd) {
-		MenuListener al = new MenuListener(dd);
-		JMenuBar bar = new JMenuBar();
-		bar.add( getReadMenu(al) );
-		bar.add( getOutputMenu(al) );
-		bar.add( getOptionsMenu(al) );
+  static JMenuBar getMenuBar(DiabetesDoc dd) {
+    MenuListener al = new MenuListener(dd);
+    JMenuBar bar = new JMenuBar();
+    bar.add( getReadMenu(al) );
+    bar.add( getOutputMenu(al) );
+    bar.add( getOptionsMenu(al) );
 
-		return bar;
-	}
+    return bar;
+  }
 
-	private static JMenu getReadMenu(ActionListener al) {
-		String name = Utils.localize("%menu.read%");
-		JMenu menu = new JMenu(name);
-		menu.setMnemonic(name.charAt(0));
+  private static JMenu getReadMenu(ActionListener al) {
+    String name = Utils.localize("%menu.read%");
+    JMenu menu = new JMenu(name);
+    menu.setMnemonic(name.charAt(0));
 
-		menu.add( getMenuItem("%menu.read.fromSmartPix%", al, 'R') );
-		menu.add( getMenuItem("%menu.read.fromFile%", al, 'F') );
+    menu.add( getMenuItem("%menu.read.fromSmartPix%", al, 'R') );
+    menu.add( getMenuItem("%menu.read.fromFile%", al, 'F') );
 
-		return menu;
-	}
+    return menu;
+  }
 
-	private static JMenu getOutputMenu(ActionListener al) {
-		String name = Utils.localize("%menu.output%");
-		JMenu menu = new JMenu(name);
-		menu.setMnemonic(name.charAt(0));
+  private static JMenu getOutputMenu(ActionListener al) {
+    String name = Utils.localize("%menu.output%");
+    JMenu menu = new JMenu(name);
+    menu.setMnemonic(name.charAt(0));
 
-		menu.add( getMenuItem("%menu.output.asPDF%", al, 'P') );
+    menu.add( getMenuItem("%menu.output.asPDF%", al, 'P') );
 
-		return menu;
-	}
+    return menu;
+  }
 
-	private static JMenu getOptionsMenu(ActionListener al) {
-		String name = Utils.localize("%menu.options%");
-		JMenu menu = new JMenu(name);
-		menu.setMnemonic(name.charAt(0));
+  private static JMenu getOptionsMenu(ActionListener al) {
+    String name = Utils.localize("%menu.options%");
+    JMenu menu = new JMenu(name);
+    menu.setMnemonic(name.charAt(0));
 
-		menu.add( getMenuItem("%menu.options.settings%", al) );
-		menu.add( getMenuItem("%menu.options.about%", al) );
-		menu.add(new javax.swing.JSeparator());
-		menu.add( getMenuItem("%menu.options.help%", al, 'H', KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0)) );
+    menu.add( getMenuItem("%menu.options.settings%", al) );
+    menu.add( getMenuItem("%menu.options.about%", al) );
+    menu.add(new javax.swing.JSeparator());
+    menu.add( getMenuItem("%menu.options.help%", al, 'H', KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0)) );
 
-		return menu;
-	}
+    return menu;
+  }
 
-	private static JMenuItem getMenuItem(String name, ActionListener al) {
-		JMenuItem item = new JMenuItem(Utils.localize(name));
-		item.addActionListener(al);
-		item.setActionCommand(name);
-		return item;
-	}
-	private static JMenuItem getMenuItem(String name, ActionListener al, char mnemonic) {
-		return getMenuItem(name, al, mnemonic, KeyStroke.getKeyStroke(mnemonic, KeyEvent.CTRL_MASK));
-	}
-	private static JMenuItem getMenuItem(String name, ActionListener al, char mnemonic, KeyStroke accelerator) {
-		JMenuItem item = getMenuItem(name, al);
-		item.setMnemonic(mnemonic);
-		item.setAccelerator(accelerator);
-		return item;
-	}
+  private static JMenuItem getMenuItem(String name, ActionListener al) {
+    JMenuItem item = new JMenuItem(Utils.localize(name));
+    item.addActionListener(al);
+    item.setActionCommand(name);
+    return item;
+  }
+  private static JMenuItem getMenuItem(String name, ActionListener al, char mnemonic) {
+    return getMenuItem(name, al, mnemonic, KeyStroke.getKeyStroke(mnemonic, KeyEvent.CTRL_MASK));
+  }
+  private static JMenuItem getMenuItem(String name, ActionListener al, char mnemonic, KeyStroke accelerator) {
+    JMenuItem item = getMenuItem(name, al);
+    item.setMnemonic(mnemonic);
+    item.setAccelerator(accelerator);
+    return item;
+  }
 }
