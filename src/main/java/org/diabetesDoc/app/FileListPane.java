@@ -22,43 +22,38 @@ package org.diabetesDoc.app;
 ////////////////////////////////////////////////////////////////////////////////
 
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.io.Serializable;
+import java.nio.file.*;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 /**
 * This Class represents a button-list for all the XML-files given in the directory
 * specified by {@link DiabetesDoc#PROPERTIES} (key <code>&quot;xmlDir&quot;</code>).
 * @author Stephan Lunowa
-* @version 2.1 - last modified 2014-03-17
+* @version 0.1 - last modified 2017-10-18
 */
-public class FileListPane extends JScrollPane {
-	/** @see Serializable */
+final class FileListPane extends javax.swing.JScrollPane {
+	/** @see java.io.Serializable */
 	private static final long serialVersionUID = 1L;
 
 	/** The {@code ActionListener} listening to the buttons. */
 	private final ActionListener al;
-	/** The {@code DiabetesDoc} for the data. */
-	private final DiabetesDoc dd;
+
 	/** The Panel to add all buttons. */
-	private JPanel p = new JPanel();
+	private final JPanel p = new JPanel();
 
 	/**
 	 * Creates a new {@link FileListPane} instance.
 	 *
 	 * @param al - The {@code ActionListener} listening to the buttons.
 	 */
-	public FileListPane(ActionListener al, DiabetesDoc dd) {
+	public FileListPane(ActionListener al) {
 		this.al = al;
-		this.dd = dd;
-		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		this.refreshList();
-		setPreferredSize(new Dimension(p.getPreferredSize().width + 30, p.getPreferredSize().height));
+		setPreferredSize(new java.awt.Dimension(p.getPreferredSize().width + 30, p.getPreferredSize().height));
 	}
 
 	/**
@@ -67,19 +62,26 @@ public class FileListPane extends JScrollPane {
 	 * {@link DiabetesDoc#PROPERTIES} (key <code>&quot;xmlDir&quot;</code>) has changed.
 	 */
 	public void refreshList() {
-		if(dd.refreshData()) {
-			p.removeAll();
-			String[] days = dd.getDaysInData();
-			p.setLayout(new GridLayout(days.length, 1));
+    p.removeAll();
+    ArrayList<String> days = new ArrayList<>();
+    try(DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get("xml"), "*.xml")) {
+      for(Path entry: stream) {
+        days.add(entry.getFileName().toString());
+      }
+    } catch(DirectoryIteratorException | java.io.IOException e) {
+      e.printStackTrace();
+    }
+    java.util.Collections.sort(days);
 
-			for(int i = days.length-1; i >= 0; i--) {
-				JButton button = new JButton(Utils.localizeDateString(days[i]));
-				button.setActionCommand(days[i]);
-				button.addActionListener(al);
-				p.add(button);
-			}
+    p.setLayout(new java.awt.GridLayout(days.size(), 1));
+    for(int i = days.size()-1; i >= 0; i--) {
+      days.set(i, days.get(i).substring(0, days.get(i).length()-4));
+	    JButton button = new JButton(Utils.localizeDateString(days.get(i)));
+	    button.setActionCommand(days.get(i));
+	    button.addActionListener(al);
+	    p.add(button);
+    }
 
-			setViewportView(p);
-		}
-	}
+    setViewportView(p);
+  }
 }

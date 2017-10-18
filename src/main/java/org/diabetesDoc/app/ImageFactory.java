@@ -26,7 +26,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.StringReader;
 
 import javax.swing.ImageIcon;
 
@@ -39,7 +38,7 @@ import org.jdom2.JDOMException;
  * @author Stephan Lunowa
  * @version 2.1 - last modified 2014-03-13
  */
-public class ImageFactory {
+final class ImageFactory {
 	/** The horizontal offset in pixels. */
 	private static final int X_OFF = 100;
 	/** The vertical offset in pixels. */
@@ -78,7 +77,7 @@ public class ImageFactory {
 	 * @throws JDOMException If an JDOM exception occurs while parsing the XML-String.
 	 */
 	public static BufferedImage getImage(String xmlTxt) throws IOException, JDOMException {
-		return getImage(XML_IO.SAX_BUILDER.build(new StringReader(xmlTxt)));
+		return getImage(XML_IO.SAX_BUILDER.build(new java.io.StringReader(xmlTxt)));
 	}
 
 	/**

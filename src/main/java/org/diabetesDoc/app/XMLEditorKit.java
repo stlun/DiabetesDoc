@@ -40,7 +40,7 @@ import javax.swing.UIManager;
  * @author Stephan Lunowa
  * @version 2.1 - last modified 2014-03-17
  */
-class XMLEditorKit extends StyledEditorKit implements ViewFactory {
+final class XMLEditorKit extends StyledEditorKit implements ViewFactory {
 	/** @see Serializable */
     private static final long serialVersionUID = 1L;
 

@@ -21,13 +21,11 @@ package org.diabetesDoc.app;
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import static org.diabetesDoc.app.OutputCreator.*;
 
@@ -38,7 +36,7 @@ import static org.diabetesDoc.app.OutputCreator.*;
  * @author Stephan Lunowa
  * @version 2.1 - last modified 2014-03-26
  */
-public class Table {
+final class Table {
 	/**
 	 * The maximal difference of time in minutes to combine data.
 	 */
@@ -298,9 +296,9 @@ public class Table {
 	 * @param pdfStream - The {@code PDPageContentStream} to which the {@code Table} is added.
 	 * @param xPos - The left horizontal position of the {@code Table}.
 	 * @param yPos - The upper vertical position of the {@code Table}.
-	 * @throws IOException If an I/O exception occurs while writing to the {@code PDPageContentStream}.
+	 * @throws java.io.IOException If an I/O exception occurs while writing to the {@code PDPageContentStream}.
 	 */
-	void toPDF(PDPageContentStream pdfStream, float xPos, float yPos) throws IOException {
+	void toPDF(PDPageContentStream pdfStream, float xPos, float yPos) throws java.io.IOException {
 		finish();
 		int dayOfWeek = Utils.toCalendar(date).get(Calendar.DAY_OF_WEEK);
 
@@ -431,7 +429,7 @@ public class Table {
 							+ (LAST_CELL_WIDTH - 0.5f*CM) * i / 24,
 					yPos - 6.5f*CELL_HEIGHT - 0.05f*CM);
 		pdfStream.beginText();
-		pdfStream.setFont( PDType1Font.HELVETICA_BOLD , PDF_FONT_SIZE_TABLE * 0.7f);
+		pdfStream.setFont( org.apache.pdfbox.pdmodel.font.PDType1Font.HELVETICA_BOLD , PDF_FONT_SIZE_TABLE * 0.7f);
 		pdfStream.moveTextPositionByAmount(xPos + FIRST_CELL_WIDTH + (MAX_COLS+1)*CELL_WIDTH + 0.225f*CM,
 				yPos - 6.7f*CELL_HEIGHT);
 		for(int i = 0; i < 8; i++) {

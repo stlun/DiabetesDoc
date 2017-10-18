@@ -27,7 +27,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
 /**
@@ -35,7 +34,7 @@ import javax.swing.KeyStroke;
  * @author Stephan Lunowa
  * @version 2.1 - last modified 2014-03-12
  */
-class MenuFactory {
+final class MenuFactory {
 	/** No constructor, only static methods. */
 	private MenuFactory() {}
 
@@ -77,7 +76,7 @@ class MenuFactory {
 
 		menu.add( getMenuItem("%menu.options.settings%", al) );
 		menu.add( getMenuItem("%menu.options.about%", al) );
-		menu.add(new JSeparator());
+		menu.add(new javax.swing.JSeparator());
 		menu.add( getMenuItem("%menu.options.help%", al, 'H', KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0)) );
 
 		return menu;
@@ -89,12 +88,10 @@ class MenuFactory {
 		item.setActionCommand(name);
 		return item;
 	}
-	private static JMenuItem getMenuItem(String name, ActionListener al,
-			char mnemonic) {
+	private static JMenuItem getMenuItem(String name, ActionListener al, char mnemonic) {
 		return getMenuItem(name, al, mnemonic, KeyStroke.getKeyStroke(mnemonic, KeyEvent.CTRL_MASK));
 	}
-	private static JMenuItem getMenuItem(String name, ActionListener al,
-			char mnemonic, KeyStroke accelerator) {
+	private static JMenuItem getMenuItem(String name, ActionListener al, char mnemonic, KeyStroke accelerator) {
 		JMenuItem item = getMenuItem(name, al);
 		item.setMnemonic(mnemonic);
 		item.setAccelerator(accelerator);

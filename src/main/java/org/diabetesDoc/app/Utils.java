@@ -22,25 +22,20 @@ package org.diabetesDoc.app;
 ////////////////////////////////////////////////////////////////////////////////
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.Calendar;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
 
 /**
  * This class provides useful methods for different tasks.
  * @author Stephan
- * @version 2.1 - last modified 2014-03-18
+ * @version 0.1 - last modified 2017-10-18
  */
-public class Utils {
+final class Utils {
 	/** The last used {@link ResourceBundle} for language binding. */
 	private static ResourceBundle currResourceBundle;
 
@@ -62,7 +57,7 @@ public class Utils {
 	  		for(int i = 0; i < f.length; i++) {
 	  			try {
 		  			factors[i] = XML_IO.SAX_BUILDER.build(f[i]).getRootElement();
-			  	} catch(IOException | JDOMException e) {
+			  	} catch(IOException | org.jdom2.JDOMException e) {
 		  			e.printStackTrace();
 			  	}
 			  }
@@ -118,7 +113,7 @@ public class Utils {
 		try {
 			ResourceBundle rb = getLang();
 			String key, value;
-			Enumeration<String> keys = rb.getKeys();
+			java.util.Enumeration<String> keys = rb.getKeys();
 			while(keys.hasMoreElements()) {
 				key = keys.nextElement();
 				if(txt.contains("%" + key + "%")) {
@@ -132,7 +127,7 @@ public class Utils {
 		}
 
 		if(replacement != null) {
-			txt = MessageFormat.format(txt, replacement);
+			txt = java.text.MessageFormat.format(txt, replacement);
 		}
 		return txt;
 	}
@@ -228,7 +223,7 @@ public class Utils {
 	}
 	
 	public static double getBolusFactorCarbs(Calendar date) {
-		List<Element> periods = factors[0].getChildren();
+		java.util.List<Element> periods = factors[0].getChildren();
 		/*for(int i = 0; i < factors.length; i++) {
 			if(factors[i] == null) continue;
 			if(Utils.toCalendar(factors[i].getAttributeValue("begin")).before(date))

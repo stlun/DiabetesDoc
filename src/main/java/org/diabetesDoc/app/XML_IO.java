@@ -26,7 +26,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 import org.jdom2.DocType;
 import org.jdom2.Document;
@@ -39,9 +38,9 @@ import org.jdom2.output.XMLOutputter;
 /**
  * This Class provides methods for I/O of XML-data.
  * @author Stephan Lunowa
- * @version 2.1 - last modified 2014-03-14
+ * @version 2.1 - last modified 2017-10-18
  */
-public final class XML_IO  {
+final class XML_IO {
 	/** The parser for XML-data. */
 	public static final SAXBuilder SAX_BUILDER = new SAXBuilder();
 
@@ -95,7 +94,7 @@ public final class XML_IO  {
 			String readingDate = root.getChild("IP").getAttributeValue("Dt");
 
 			// read and write insulin pump profiles
-			new File("xml/IPPROFILES").mkdirs();
+			new File("xml/ipprofiles").mkdirs();
 			Element profile;
 			while((profile = root.getChild("IP").getChild("IPPROFILE") ) != null) {
 				profile.detach();
@@ -103,7 +102,7 @@ public final class XML_IO  {
 				DocType profileType = new DocType("IPPROFILE",
 						"file:///" + new File("files/IPPROFILE.dtd").getAbsolutePath());
 				XML_OUTPUTTER.output(new Document(profile, profileType ),
-						new FileWriter("xml/IPPROFILES/" + readingDate + "_"
+						new FileWriter("xml/ipprofiles/" + readingDate + "_"
 								+ profile.getAttributeValue("Name") + ".xml"));
 			}
 
@@ -126,22 +125,7 @@ public final class XML_IO  {
 			throw new IllegalArgumentException("The file contains not supported xml-data.");
 		}
 	}
-	
-	/**
-	 * Parses the given {@code File} as XML-data and returns the resulting days.
-	 * The output has the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
-	 *
-	 * @param f - The {@code File} to parse from.
-	 * @return The {@code HashMap<String, Element>} of days, key is the date.
-	 * @throws IOException If an I/O exception occurs while reading and writing the files.
-	 * @throws JDOMException If an error occurs while parsing the XML-data of the files.
-	 */
-	public static HashMap<String, Element> parseFile(File f) 
-			throws IOException, JDOMException {
-		Element root = SAX_BUILDER.build(f).getRootElement();
-		return extractDays(root, 300);
-	}
-	
+
 	private static HashMap<String, Element> extractDays(Element root, int count) {
 		HashMap<String, Element> days = new HashMap<String, Element>(count);
 		
@@ -176,15 +160,14 @@ public final class XML_IO  {
 	 * @throws JDOMException If an error occurs while parsing the XML-data of the file (if existing).
 	 */
 	private static void writeDay(Element day) throws IOException, JDOMException {
-		File file = new File("xml/" + day.getAttributeValue("Dt") + ".xml");
-		if(file.getParentFile() != null)
-			file.getParentFile().mkdirs();
+		File file = new File("xml", day.getAttributeValue("Dt") + ".xml");
+		file.getParentFile().mkdirs();
 
 		if(file.exists()) {
 			for(Element oldData : SAX_BUILDER.build(file).getRootElement().getChildren()) {
 				oldData.detach();
 
-				List<Element> dayData = day.getChildren();
+				java.util.List<Element> dayData = day.getChildren();
 				int currPos;
 				for(currPos = 0; currPos < dayData.size(); currPos++) {
 					if(DAY_ELEMENT_COMPARATOR.compare(oldData, dayData.get(currPos)) == 0)

@@ -15,20 +15,18 @@ format which is also compatible for use with Unix/Linux. Additional Output of th
 is possible.
 
 ## Installation and dependencies
-For this software, you need to have a current *Java Runtime* as well as *bash* installed. *convert* is recommended,
-but not necessary. Additionally you need an Accu-Chek SmartPix device.
+For this software, you need to have a current *Java Runtime* as well as *bash*, *make* and *maven* installed.
+*convert* is recommended, but not necessary. Additionally you need an Accu-Chek SmartPix device.
 
-To install the software in a local directory, you need to clone or download the git project and run the `install.sh`
-script in its main directory.
+To install the software in a local directory, you need to clone or download the git project and run `make install`
+in the main directory.
 
 ## Usage
-After you have read your devices with the Accu-Chek SmartPix device, you have to start the script
-`script/copy_report.py` to copy the data to the *reports* directory and to set up the internal data storage in the
-*xml* directory.
+After you have read your devices with the Accu-Chek SmartPix device, you have to start the java application
+`DiabetesDoc.jar`.
 
-If you want to create a *diary* in .PDF-format, run the script `script/diary.py` and choose the time period in the
-dialog. The file will then be created in the *pdf* directory.
-**This function is currently not supported but will be implemented soon.**
+You can use it to copy the data to the *reports* directory and to set up the internal data storage in the
+*xml* directory or to to create a *diary* in .PDF-format.
 
 ## License
 
@@ -44,4 +42,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with DiabetesDoc. If not, see <http://www.gnu.org/licenses/>.
+
+It includes the third party packages **jdom2** and **pdfbox** with the following licenses:
+* JDOM (see www.jdom.org) with own license, following below
+* Pdfbox (see pdfbox.apache.org) with Apache License Version 2.0 (see www.apache.org/licenses/).
 

@@ -21,14 +21,7 @@ package org.diabetesDoc.app;
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
 
 /**
  * This Class creates {@link Table}s from XML-data with DTD <code>DAY</code>
@@ -45,27 +38,27 @@ public class TableFactory {
 	/**
 	 * Creates a new Table from the given XML-Document.
 	 *
-	 * @param xmlFile a XML-{@code File} with the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
+	 * @param xmlFile a XML-{@code java.io.File} with the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
 	 *
 	 */
-	static List<Table> createTables(File xmlFile) throws IOException, JDOMException {
+	static List<Table> createTables(java.io.File xmlFile) throws java.io.IOException, org.jdom2.JDOMException {
 		return createTables(XML_IO.SAX_BUILDER.build(xmlFile));
 	}
 
 	/**
 	 * Creates a new {@link Table} from the given XML-Document.
 	 *
-	 * @param xmlDoc a XML-{@link Document} with the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
+	 * @param xmlDoc a XML-{@link org.jdom2.Document} with the DTD <code>DAY</code> (see <i>files/day.dtd</i>).
 	 */
-	public static List<Table> createTables(Document xmlDoc) {
-		List<Table> tables = new ArrayList<Table>();
+	public static List<Table> createTables(org.jdom2.Document xmlDoc) {
+		List<Table> tables = new java.util.ArrayList<>();
 		Table.Column c;
 		Table t;
 
 		t = new Table(xmlDoc.getRootElement().getAttributeValue("Dt"));
 		tables.add(t);
 
-		for(Element e : xmlDoc.getRootElement().getChildren()) {
+		for(org.jdom2.Element e : xmlDoc.getRootElement().getChildren()) {
 
 			String time, cmd, remark;
 			switch(e.getName()) {

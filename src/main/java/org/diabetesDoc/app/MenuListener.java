@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.FileVisitResult;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,7 +46,7 @@ import javax.swing.SwingWorker;
  * @author Stephan Lunowa
  * @version 2.2 - last modified 2017-10-10
  */
-class MenuListener implements ActionListener {
+final class MenuListener implements ActionListener {
 	/**
 	 * The {@link DiabetesDoc}-Frame, it belongs to.
 	 */
@@ -105,6 +104,7 @@ class MenuListener implements ActionListener {
 				@Override
 				protected Void doInBackground() throws Exception {
 					String dateStr = Utils.toDateString(Calendar.getInstance());
+					new File("reports").mkdir();
 					Path source = Paths.get(smartPixPath , "REPORT");
 					Path destination = Paths.get("reports", dateStr);
 					Files.walkFileTree(source, new TreeCopier(source, destination));
@@ -256,7 +256,7 @@ class MenuListener implements ActionListener {
      * A {@code FileVisitor} that copies a file-tree in lower case.
      * Skips unused files from REPORT.
      */
-    static final class TreeCopier extends SimpleFileVisitor<Path> {
+    static final class TreeCopier extends java.nio.file.SimpleFileVisitor<Path> {
     	private static final Pattern regex = Pattern.compile("((?:\\w)+\\.(?:\\w)+)");
     	private final Path source;
         private final Path target;

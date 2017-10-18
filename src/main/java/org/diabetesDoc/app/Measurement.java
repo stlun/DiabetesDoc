@@ -23,7 +23,7 @@ package org.diabetesDoc.app;
 
 import java.util.Calendar;
 
-public class Measurement {
+final class Measurement {
 	private Calendar date;
 	private int bg;
 	private double iu_total;

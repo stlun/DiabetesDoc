@@ -22,29 +22,17 @@ package org.diabetesDoc.app;
 ////////////////////////////////////////////////////////////////////////////////
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Properties;
 
 import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
 
 /**
  * Main Class of the DiabetesDoc-Application<br>
@@ -53,8 +41,8 @@ import org.jdom2.JDOMException;
  * @author Stephan Lunowa
  * @version 0.1b - last modified 2017-10-11
  */
-public class DiabetesDoc extends JFrame {
-  /** @see Serializable */
+public final class DiabetesDoc extends javax.swing.JFrame {
+  /** @see java.io.Serializable */
   private static final long serialVersionUID = 1L;
 
   /**
@@ -64,7 +52,7 @@ public class DiabetesDoc extends JFrame {
   static final long VERSION = 0_001L;
 
   /** The icon of the Application */
-  static final Image ICON = Toolkit.getDefaultToolkit().getImage(DiabetesDoc.class.getResource("/DiabetesDoc.png"));
+  static final java.awt.Image ICON = java.awt.Toolkit.getDefaultToolkit().getImage(DiabetesDoc.class.getResource("/DiabetesDoc.png"));
 
   /**
    * The path of the file containing the properties. 
@@ -87,9 +75,6 @@ public class DiabetesDoc extends JFrame {
     SETTINGS = new Properties(defaults);
   }
 
-	/** The data from the backend. */
-	private HashMap<String, Element> dayMap;
-
 	/**
 	 * File-list on the left side of the Mainframe.
 	 */
@@ -104,7 +89,7 @@ public class DiabetesDoc extends JFrame {
 	 * This {@code ActionListener} opens the files given by the buttons
 	 * of the {@link DiabetesDoc#fileListPane}.
 	 */
-	private ActionListener fileListActionListener = new ActionListener() {
+	private final ActionListener fileListActionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			for(JInternalFrame f : desktopPane.getAllFrames()) {
@@ -126,10 +111,10 @@ public class DiabetesDoc extends JFrame {
 	public DiabetesDoc() {
 		super("DiabetesDoc v" + getVersion());
 
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter() {
+		this.setDefaultCloseOperation(DiabetesDoc.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent e){
+			public void windowClosing(java.awt.event.WindowEvent e){
 				for(JInternalFrame f : desktopPane.getAllFrames()) {
 					if( !((DayInternalFrame)f).close() )
 						return;
@@ -142,7 +127,7 @@ public class DiabetesDoc extends JFrame {
 		});
 
 		setIconImage(ICON);
-		setMinimumSize(new Dimension(800,600));
+		setMinimumSize(new java.awt.Dimension(800,600));
 
 		Rectangle frameBounds;
 		try {
@@ -150,47 +135,20 @@ public class DiabetesDoc extends JFrame {
 			String[] pos = getSetting("framePosition").split(",");
 			frameBounds = new Rectangle(Integer.parseInt(pos[0]), Integer.parseInt(pos[1]),
 										Integer.parseInt(size[0]),Integer.parseInt(size[1]));
-		} catch(NumberFormatException e) {
+		} catch(Exception e) {
 			frameBounds = new Rectangle(100,50, 800,600);
 		}
 		setBounds(frameBounds);
 
 		setJMenuBar(MenuFactory.getMenuBar(this));
 
-		fileListPane = new FileListPane(fileListActionListener, this);
+		fileListPane = new FileListPane(fileListActionListener);
 		desktopPane = new JDesktopPane();
 
 		getContentPane().add(fileListPane, BorderLayout.WEST);
 		getContentPane().add(desktopPane, BorderLayout.CENTER);
 
 		setVisible(true);
-	}
-
-	/**
-	 * Tries to load the data from file <code>reports/data.xml</code>.
-	 * @return true, if successful; false, otherwise
-	 */
-	public boolean refreshData() {
-		File data = new File("reports/data.xml");
-		if(data.isFile() && data.canRead()) {
-			try {
-				dayMap = XML_IO.parseFile(data);
-				return true;
-			} catch(IOException | JDOMException e) {}
-		}
-		return false;
-	}
-	
-	/**
-	 * @return the sorted array of days of the data.
-	 */
-	public String[] getDaysInData() {
-		if(dayMap == null || dayMap.isEmpty())
-			return new String[0];
-		String[] days = new String[dayMap.size()];
-		dayMap.keySet().toArray(days);
-		Arrays.sort(days);
-		return days;
 	}
 
 	/**
@@ -227,13 +185,8 @@ public class DiabetesDoc extends JFrame {
 	public static void loadSettings() {
 		File f = new File(SETTINGS_PATH);
 		if(f.exists()) {
-			try {
-				FileReader fr = new FileReader(f);
+			try (FileReader fr = new FileReader(f)) {
 				SETTINGS.load(fr);
-				fr.close();
-
-				// successful
-				return;
 			} catch (IOException e) {
 				Dialogs.showErrorMsg("%error.file.open.ttl%", "%error.cfgFile.open.msg%", null);
 			}
@@ -249,13 +202,11 @@ public class DiabetesDoc extends JFrame {
 		if(f.getParentFile() != null && !f.getParentFile().exists())
 			f.getParentFile().mkdirs();
 
-		try {
-			FileWriter fw = new FileWriter(f);
+		try (FileWriter fw = new FileWriter(f);) {
 			SETTINGS.store(fw, "################################################################\n"
-							 + "# This is the configuration file for the DiabetesDoc software. #\n"
-							 + "# This file is auto-generated and should not be changed.       #\n"
-							 + "################################################################\n" );
-			fw.close();
+                       + "# This is the configuration file for the DiabetesDoc software. #\n"
+                       + "# This file is auto-generated and should not be changed.       #\n"
+                       + "################################################################\n" );
 		} catch(IOException e) {
 			Dialogs.showErrorMsg("%error.file.save.ttl%",
 					"%error.cfgFile.save.msg% \n" + e.getMessage(), null);

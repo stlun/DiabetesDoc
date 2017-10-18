@@ -47,7 +47,7 @@ import org.jdom2.JDOMException;
  * @author Stephan Lunowa
  * @version 2.1 - last modified 2014-03-26
  */
-public class OutputCreator {
+final class OutputCreator {
 	/**
 	 * 1 cm for output as PDF.
 	 */
@@ -87,91 +87,6 @@ public class OutputCreator {
 	private OutputCreator() {}
 
 	/**
-	 * Creates a HTML-file with the data from the given days.
-	 *
-	 * @param startDate - The {@link Calendar}-date to start with (inclusive).
-	 * @param endDate - The {@code Calendar}-date to end with (inclusive).
-	 * @throws IOException If an I/O exception occurs while creating the HTML-file from the XML-files.
-	 * @see OutputCreator#createHTML(Calendar, Calendar, ProgressMonitor)
-	 */
-	public static void createHTML(Calendar startDate, Calendar endDate)
-			throws IOException {
-		createHTML(startDate, endDate, null);
-	}
-
-	/**
-	 * Creates a HTML-file with the data from the given days.
-	 *
-	 * @param startDate - The {@link Calendar}-date to start with (inclusive).
-	 * @param endDate - The {@code Calendar}-date to end with (inclusive).
-	 * @param pm - The {@link ProgressMonitor} displaying the progress
-	 *             from <code>0</code> to <code>100</code>.
-	 * @throws IOException If an I/O exception occurs while creating the HTML-file from the XML-files.
-	 * @throws RuntimeException If the cancel-button of the {@code ProgressMonitor} was clicked.
-	 * @see OutputCreator#createHTML(Calendar, Calendar)
-	 */
-	public static void createHTML(Calendar startDate, Calendar endDate, ProgressMonitor pm)
-			throws IOException {
-		File out = new File("html/" + Utils.toDateString(startDate)
-							+ "_" + Utils.toDateString(endDate) + ".html");
-		if(out.getParentFile() != null)
-			out.getParentFile().mkdirs();
-
-		FileWriter fw = new FileWriter(out);
-
-		fw.write("<!Doctype html>\n<html>\n<head>\n\t<title>" + Utils.localize("%output.overview%: ")
-				+ Utils.toDateString(startDate) + " - " + Utils.toDateString(endDate)
-				+ "</title>\n\t<style type=\"text/css\">\n\t\t"
-				+ "html { margin: 0.8cm; }\n\t\t"
-				+ "body { font: 8.5pt Times; }\n\t\t"
-				+ "table { table-layout: fixed; border-collapse: collapse; empty-cells: show; }\n\t\t"
-				+ "th { border:1px solid #000; overflow:hidden; text-align: center; vertical-align: middle; }"
-				+ "\t\t\n" + "td { width: 1.225cm; border:1px solid #000; overflow:hidden; "
-						+ "text-align: center; vertical-align: middle; }\n\t\t"
-				+ ".first { width: 2.1cm; }\n\t\t"
-				+ "td.last { width: 10.0cm; border-style: none; font: 6.3pt Helvetica; }\n\t\t"
-				+ "td.remarks { text-align: left; }\n\t\t"
-				+ "td.upper { border-bottom: none; }\n\t\t"
-				+ "td.lower { border-top: none; }\n\t\t"
-				+ "td.separator { height: 0.1cm; border: none; }\n"
-				+ "\t</style>\n</head>\n<body>\n<table>"
-				+ "<tr><th class=\"first\">" + Utils.localize("%output.date%")
-						+ "</th><th colspan=\"13\">" + Utils.localize("%output.overview%")
-						+ "</th><th style=\"width: 10.0cm\">" + Utils.localize("%output.bg.long%")
-						+ "</th></tr>\n\t<tr><td class=\"separator\"></td></tr>\n");
-
-		if(pm != null) {
-			pm.setProgress(1);
-		}
-
-		int totalTime = Math.max(1, endDate.compareTo(startDate));
-		while(!startDate.after(endDate)) {
-			if(pm != null) {
-				pm.setProgress(1 + 99 * endDate.compareTo(startDate) / totalTime);
-				if(pm.isCanceled()) {
-					fw.close();
-					throw new RuntimeException("Cancelled.");
-				}
-			}
-			try {
-				for(Table t : TableFactory.createTables( new File("xml/"
-												+ Utils.toDateString(startDate) + ".xml") ))
-					fw.write(t.toHTMLString() + "\t<tr><td class=\"separator\"></td></tr>\n");
-			} catch(JDOMException e) {
-				// TODO auto-generated catch block
-				e.printStackTrace();
-			} catch(IOException e) {
-				// TODO auto-generated catch block
-				e.printStackTrace();
-			}
-			startDate.add(Calendar.DATE, 1);
-		}
-
-		fw.write("</table>\n</body>\n</html>");
-		fw.close();
-	}
-
-	/**
 	 * Creates a PDF-file with the data from the given days.
 	 *
 	 * @param startDate - The {@link Calendar}-date to start with (inclusive).
@@ -199,10 +114,8 @@ public class OutputCreator {
 	 */
 	public static void createPDF(Calendar startDate, Calendar endDate, ProgressMonitor pm)
 			throws IOException, COSVisitorException {
-		File out = new File("pdf/" + Utils.toDateString(startDate)
-							+ "_" + Utils.toDateString(endDate) + ".pdf");
-		if(out.getParentFile() != null)
-			out.getParentFile().mkdirs();
+		File out = new File("pdf", Utils.toDateString(startDate) + "_" + Utils.toDateString(endDate) + ".pdf");
+		out.getParentFile().mkdirs();
 
 		// Create a new document
 		PDDocument pdfDoc = new PDDocument();

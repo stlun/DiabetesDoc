@@ -22,20 +22,14 @@ package org.diabetesDoc.app;
 ////////////////////////////////////////////////////////////////////////////////
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -45,8 +39,8 @@ import javax.swing.Timer;
  * @author Stephan Lunowa
  * @version 2.1 - last modified 2017-10-11
  */
-public class Reminder extends JFrame implements ActionListener {
-	/** @see Serializable */
+final class Reminder extends javax.swing.JFrame implements java.awt.event.ActionListener {
+	/** @see java.io.Serializable */
 	private static final long serialVersionUID = 1l;
 
 	/** File, in which the next reminding date is saved. */
@@ -111,11 +105,9 @@ public class Reminder extends JFrame implements ActionListener {
 	  c.set(Calendar.HOUR_OF_DAY, 0);
 	  c.set(Calendar.MINUTE, 0);
 	  c.set(Calendar.SECOND, 0);
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(DATE_FILE));
+		try (BufferedReader br = new BufferedReader(new java.io.FileReader(DATE_FILE))) {
 			c = Utils.toCalendar( br.readLine() );
-			br.close();
-    } catch(FileNotFoundException e) { // do nothing (first start or moved)
+    } catch(java.io.FileNotFoundException e) { // do nothing (first start or moved)
     } catch(IOException e) {
 			e.printStackTrace();
 		} catch(NumberFormatException e) {
@@ -136,10 +128,8 @@ public class Reminder extends JFrame implements ActionListener {
 
 		if(DATE_FILE.getParentFile() != null && !DATE_FILE.getParentFile().exists())
 			DATE_FILE.getParentFile().mkdirs();
-		try {
-			FileWriter fw = new FileWriter(DATE_FILE);
+		try (FileWriter fw = new FileWriter(DATE_FILE)) {
 			fw.write( Utils.toDateString(date) );
-			fw.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -162,7 +152,7 @@ public class Reminder extends JFrame implements ActionListener {
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(java.awt.event.ActionEvent e) {
 		if(e.getActionCommand().equals(Utils.localize("%option.remindLater%"))) {
 			if(waitingTimeChoice.getSelectedItem().equals("1 " + Utils.localize("%option.hour%")))
 				timer.setInitialDelay(3600000); // in ms = 1 hour

@@ -38,14 +38,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 /**
@@ -53,7 +45,7 @@ import javax.swing.undo.UndoManager;
  * @author Stephan Lunowa
  * @version 2.1 - last modified 2014-03-23
  */
-class DayInternalFrame extends JInternalFrame {
+final class DayInternalFrame extends JInternalFrame {
 	/** @see Serializable */
 	private static final long serialVersionUID = 1L;
 
@@ -74,8 +66,8 @@ class DayInternalFrame extends JInternalFrame {
 		this.file = file;
 		setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 
-		addInternalFrameListener(new InternalFrameAdapter() {
-			@Override public void internalFrameClosing(InternalFrameEvent e) { close(); }
+		addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
+			@Override public void internalFrameClosing(javax.swing.event.InternalFrameEvent e) { close(); }
 		});
 
 		setJMenuBar(createMenuBar());
@@ -84,9 +76,9 @@ class DayInternalFrame extends JInternalFrame {
 			textPane.setEditorKit(new XMLEditorKit());
 			textPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 			textPane.read(new FileReader(file), file);
-			textPane.getStyledDocument().addUndoableEditListener(new UndoableEditListener() {
+			textPane.getStyledDocument().addUndoableEditListener(new javax.swing.event.UndoableEditListener() {
 				@Override
-				public void undoableEditHappened(UndoableEditEvent e) {
+				public void undoableEditHappened(javax.swing.event.UndoableEditEvent e) {
 					undo.addEdit(e.getEdit());
 					updateGUI();
 				}
@@ -315,7 +307,7 @@ class DayInternalFrame extends JInternalFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				undo.redo();
-			} catch (CannotRedoException ex) {
+			} catch (javax.swing.undo.CannotRedoException ex) {
 				System.out.println("Unable to redo: " + ex);
 				ex.printStackTrace();
 			}
@@ -340,7 +332,7 @@ class DayInternalFrame extends JInternalFrame {
 	    public void actionPerformed(ActionEvent e) {
 	        try {
 	            undo.undo();
-	        } catch (CannotUndoException ex) {
+	        } catch (javax.swing.undo.CannotUndoException ex) {
 	            System.out.println("Unable to undo: " + ex);
 	            ex.printStackTrace();
 	        }
@@ -348,7 +340,7 @@ class DayInternalFrame extends JInternalFrame {
 	    }
 	}
 
-	private class DayTableModel extends DefaultTableModel {
+	private final class DayTableModel extends javax.swing.table.DefaultTableModel {
 		/** @see Serializable */
 		private static final long serialVersionUID = 1L;
 
@@ -356,7 +348,7 @@ class DayInternalFrame extends JInternalFrame {
 		private List<String[]> data = new ArrayList<String[]>();
 
 		private DayTableModel() {
-			remarksLbl.setBorder(new EmptyBorder(2, 5, 2, 2));
+			remarksLbl.setBorder(new javax.swing.border.EmptyBorder(2, 5, 2, 2));
 		}
 
 		@Override
