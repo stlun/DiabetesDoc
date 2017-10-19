@@ -53,6 +53,7 @@ final class FileListPane extends javax.swing.JScrollPane {
     this.al = al;
     setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     this.refreshList();
+    setViewportView(p);
   }
 
   /**
@@ -67,7 +68,9 @@ final class FileListPane extends javax.swing.JScrollPane {
       for(Path entry: stream) {
         days.add(entry.getFileName().toString());
       }
-    } catch(DirectoryIteratorException | java.io.IOException e) {
+    } catch(java.nio.file.NoSuchFileException e) {
+      // do nothing (no files existing)
+    }catch(DirectoryIteratorException | java.io.IOException e) {
       e.printStackTrace();
     }
     java.util.Collections.sort(days);
@@ -81,7 +84,6 @@ final class FileListPane extends javax.swing.JScrollPane {
       p.add(button);
     }
 
-    setViewportView(p);
     setPreferredSize(new java.awt.Dimension(p.getPreferredSize().width + 30, p.getPreferredSize().height));
   }
 }

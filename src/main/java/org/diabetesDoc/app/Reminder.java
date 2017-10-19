@@ -44,7 +44,7 @@ final class Reminder extends javax.swing.JFrame implements java.awt.event.Action
   private static final long serialVersionUID = 1l;
 
   /** File, in which the next reminding date is saved. */
-  static final File DATE_FILE = new File("files/Reminder.sav");
+  static final File DATE_FILE = new File(".reminder");
 
   /** For Choosing the waiting time. */
   private final JComboBox<String> waitingTimeChoice = new JComboBox<String>();

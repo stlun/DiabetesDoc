@@ -91,6 +91,8 @@ final class MenuListener implements ActionListener {
             Dialogs.showInfoMsg("%info.successful.reading.ttl%",
             		"%info.successful.reading.SmartPix.msg%", frame);
             frame.fileListPane.refreshList();
+            frame.revalidate();
+            frame.repaint();
             Reminder.writeRemindingDate(14);
           } catch(Exception e) {
             Dialogs.showErrorMsg("%error.reading.ttl%",
@@ -124,6 +126,7 @@ final class MenuListener implements ActionListener {
             Dialogs.showInfoMsg("%info.successful.copy.ttl%", "%info.successful.copy.msg%", frame);
           } catch(Exception e) {
             Dialogs.showErrorMsg("%error.copy.ttl%", "%error.copy.msg% \n" + e.getMessage(), frame);
+            e.getCause().printStackTrace();
           }
           super.done();
         }
@@ -146,10 +149,13 @@ final class MenuListener implements ActionListener {
             	get();
             	Dialogs.showInfoMsg("%info.successful.reading.ttl%",
             			Utils.localize("%info.successful.reading.ttl%", source.getPath()), frame);
-            	frame.fileListPane.refreshList();
+              frame.fileListPane.refreshList();
+              frame.revalidate();
+              frame.repaint();
             } catch(Exception e) {
             	Dialogs.showErrorMsg("%error.reading.ttl%",
             			Utils.localize("%error.reading.file.msg% \n", source.getPath())	+ e.getMessage(), frame);
+                  e.getCause().printStackTrace();
             }
             super.done();
           }
@@ -242,7 +248,7 @@ final class MenuListener implements ActionListener {
             	Dialogs.showErrorMsg("%error.output.ttl%", "%error.output.msg%", frame);
             } else {
             	Dialogs.showErrorMsg("%error.output.ttl%", "%error.output.msg% \n" + e.getMessage(), frame);
-            	e.printStackTrace();
+              e.getCause().printStackTrace();
             }
           }
           super.done();

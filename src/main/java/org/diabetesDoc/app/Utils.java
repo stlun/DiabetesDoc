@@ -48,7 +48,7 @@ final class Utils {
   /** No constructor, only static methods. */
   private Utils() {}
 
-  private static Element factors[];
+  private static Element factors[] = null;
   static {
     try {
       File[] f = new File("xml/bolusfactors/").listFiles();
@@ -223,17 +223,21 @@ final class Utils {
   }
   
   public static double getBolusFactorCarbs(Calendar date) {
-    java.util.List<Element> periods = factors[0].getChildren();
-    /*for(int i = 0; i < factors.length; i++) {
-      if(factors[i] == null) continue;
-      if(Utils.toCalendar(factors[i].getAttributeValue("begin")).before(date))
-        periods = factors[i].getChildren();
-    }*/
-    String time = String.format("%tR", date);
     double factor = 0;
-    for(Element period : periods) {
-      if(difference(time, period.getAttributeValue("begin")) < 0)
-        factor = Double.parseDouble(period.getAttributeValue("khfactor"));
+    if(factors != null) {
+      java.util.List<Element> periods = null;
+      for(int i = 0; i < factors.length; i++) {
+        if(factors[i] == null) continue;
+        if(Utils.toCalendar(factors[i].getAttributeValue("begin")).before(date))
+          periods = factors[i].getChildren();
+      }
+      String time = String.format("%tR", date);
+      if(periods != null) {
+        for(Element period : periods) {
+          if(difference(time, period.getAttributeValue("begin")) < 0)
+            factor = Double.parseDouble(period.getAttributeValue("khfactor"));
+        }
+      }
     }
     return factor;
   }

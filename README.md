@@ -44,6 +44,6 @@ You should have received a copy of the GNU General Public License
 along with DiabetesDoc. If not, see <http://www.gnu.org/licenses/>.
 
 It includes the third party packages **jdom2** and **pdfbox** with the following licenses:
-* JDOM (see www.jdom.org) with own license, following below
 * Pdfbox (see pdfbox.apache.org) with Apache License Version 2.0 (see www.apache.org/licenses/).
+* JDOM (see www.jdom.org) with own license, following below.
 

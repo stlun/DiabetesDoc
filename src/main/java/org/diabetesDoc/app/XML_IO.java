@@ -30,6 +30,7 @@ import java.util.HashMap;
 import org.jdom2.DocType;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.ProcessingInstruction;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
@@ -183,6 +184,13 @@ final class XML_IO {
       java.nio.file.Files.copy(XML_IO.class.getResourceAsStream("/DAY.dtd"), dtdFile.toPath());
     }
     DocType dayType = new DocType("DAY.dtd", "file:///" + dtdFile.getAbsolutePath());
-    XML_OUTPUTTER.output(new Document(day, dayType), new FileWriter(file));
+    Document doc = new Document(day, dayType);
+    ProcessingInstruction xsl = new ProcessingInstruction("xml-stylesheet","type='text/xsl' href='day.xsl'");
+    File xslFile = new File("xml/day.xsl");
+    if(!xslFile.exists()) {
+      java.nio.file.Files.copy(XML_IO.class.getResourceAsStream("/day.xsl"), xslFile.toPath());
+    }
+    doc.addContent(0, xsl);
+    XML_OUTPUTTER.output(doc, new FileWriter(file));
   }
 }
