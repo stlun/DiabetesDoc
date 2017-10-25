@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=uft-8">
+  <title>Help for the Software DiabetesDoc</title>
+</head>
+<body style="margin: 1.5em;">
+  <h1>Help for the Software <em>DiabetesDoc</em></h1>
+  <p>Copyright &copy; 2011-2017, Stephan Lunowa</p>
+
+  <p><em>DiabetesDoc</em> is a software for management of Diabetes-data.
+    Aside permanent saving data from files or a SmartPix-Device, you can also create a diary in PDF format.</p>
+
+  <h2><a id="functions">Functions</a></h2>
+  <p>You control the Software by the menu-bar, the button-column on the left side, and the Day-Overview-Frames.</p>
+  <h3><a id="menu">Menu-bar</a></h3>
+  <p>The menu-bar contains buttons to <b>Read</b>, for <b>Output</b> and for <b>Options</b>.</p>
+  <h4>Read</h4>
+  <p>The program reads the XML-data from the given source and saves it. Possible sources are <b>from SmartPix</b> (Ctrl + R) and 
+    <b>from file...</b> (Ctrl + F).<br/>
+    The first Option (<b>from SmartPix</b>) uses the path given by the <b>Settings</b> for the SmartPix-device as source,
+    reads the data and saves the report into the directory <em>reports</em>.<br/>
+    The second Option (<b>from file...</b>) asks the user for an XML-file, which is read. A Report's XML-files are in the directory
+    <em>reports/"DATE"/xml</em>.</p>
+  <h4>Output</h4>
+  <p>The program asks for a period for the diary and saves it <b>as PDF...</b> (Ctrl + P) into the directory <em>pdf</em>
+    with the name <em>startDate-endDate.pdf</em> (format for dates: YYYY-MM-DD).</p>
+  <h4>Options</h4>
+  <p>At Options there are the <b>Settings</b>, general information <b>About DiabetesDoc</b> and this <b>Help</b>.<br />
+    The meaning of the several settings is the following:</p>
+  <table>
+    <tr><td><b>SmartPix-Directory:</b></td><td>The Path of the SmartPix-Device.</td></tr>
+    <tr><td><b>Username:</b></td><td>The user's name for the output (can stay empty).</td></tr>
+    <tr><td><b>Birthday:</b></td><td>The user's birthday for the output (can stay empty).</td></tr>
+  </table>
+  <h3><a id="buttons">Button-column</a></h3>
+  <p>In the button-column all read days are shown. By Clicking on a date, an <b>Day-Overview-Frame</b> opens for it.</p>
+  <h3><a id="gui">Day-Overview-Frame</a></h3>
+  <p>In the Day-Overview-Frame the date's XML-data chosen by the <em>button-column</em>, a table-overview and a
+    blood-glucose-overview as image are shown. In the text-area on the top, the XML-data can be edited (see  
+    <a href="#xml-edit">Edit XML-files</a>). The menu has the following buttons an meaning:</p>
+  <table>
+    <tr><td><b>File | Save (Ctrl + S):</b></td><td>Saves the (possibly edited) XML-file, as it is displayed in the Frame.</td></tr>
+    <tr><td><b>File | Save As:</b></td><td>Saves the (possibly edited) XML-file, but asks the user, for a file-name.</td></tr>
+    <tr><td><b>File | Close File (Ctrl + F4):</b></td><td>Closes the XML-file and the Day-Overview-Frame.</td></tr>
+    <tr><td><b>Edit | Undo (Ctrl + Z):</b></td><td>Undoes the last edit of the XML-data in the Frame.</td></tr>
+    <tr><td><b>Edit | Redo (Ctrl + Y):</b></td><td>Redoes the last edit of the XML-data in the Frame.</td></tr>
+    <tr><td><b>Edit | Cut (Ctrl + X):</b></td><td>Cuts the selected part of the XML-data.</td></tr>
+    <tr><td><b>Edit | Copy (Ctrl + C):</b></td><td>Copies the selected part of the XML-data.</td></tr>
+    <tr><td><b>Edit | Paste (Ctrl + V):</b></td><td>Pastes the text from the clip-board to the selected part of the XML-data.</td></tr>
+    <tr><td><b>Edit | add BG:</b></td><td>Adds a BG-tag to the selected part of the XML-data.</td></tr>
+    <tr><td><b>Edit | add BOLUS:</b></td><td>Adds a BOLUS-Tag to the selected part of the XML-data.</td></tr>
+    <tr><td><b>Edit | add BASAL:</b></td><td>Adds a BASAL-Tag to the selected part of the XML-data.</td></tr>
+    <tr><td><b>Edit | add EVENT:</b></td><td>Adds an EVENT-Tag to the selected part of the XML-data.</td></tr>
+  </table>  
+  <h2><a id="xml-edit">Edit XML-files</a></h2>
+  <p>This section describes further possibilities to edit the XML-files. For this purpose You need basic knowledge about XML.
+    <br><span style="color:red;">This functionality has not been completely integrated to the program yet. A more detailed description 
+      will be added to a later version.</span></p>
+</body>
+</html>

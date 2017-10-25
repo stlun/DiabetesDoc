@@ -35,6 +35,7 @@ public final class App {
    * @param args <code>[--remind]</code> (optional): starts the {@link Reminder}.
    */
   public static void main(String[] args) {
+    copyHelp();
     DiabetesDoc.loadSettings();
     setLookAndFeel();
     if(args.length > 0 && args[0].equalsIgnoreCase("--remind")) {
@@ -49,6 +50,22 @@ public final class App {
           }
         }
       });
+    }
+  }
+
+  /**
+   * Copies the help files from jar to the directory.
+   */
+  private static void copyHelp() {
+    String helps[] = new String[]{ "help", "hilfe" };
+    for(String help : helps) {
+      try {
+        java.nio.file.Files.copy(App.class.getResourceAsStream("/locale/"+help+".html"), java.nio.file.Paths.get(help+".html"));
+      } catch (java.nio.file.FileAlreadyExistsException e) {
+        // do nothing
+      } catch (java.io.IOException e) {
+        System.err.println("Could not copy the help: " + e.getMessage());
+      }
     }
   }
 

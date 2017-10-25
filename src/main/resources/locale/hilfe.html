@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=uft-8">
+  <title>Hilfe für die Software DiabetesDoc</title>
+</head>
+<body style="margin: 1.5em;">
+  <h1>Hilfe für die Software <em>DiabetesDoc</em></h1>
+  <h2>Version 0.1</h2>
+  <p>Copyright &copy; 2011-2017, Stephan Lunowa</p>
+  <p><em>DiabetesDoc</em> ist eine Software zur Verwaltung von Diabetes-Daten.
+    Sie ermöglicht neben der dauerhaften Speicherung der Daten aus
+    Dateien und dem SmartPix-Gerät auch die Ausgabe eines Tagebuch im PDF-Format. </p>
+
+  <h2>Inhalt</h2>
+  <ul>
+    <li><a href="#functions">Funktionen</a></li>
+      <ul>
+        <li><a href="#menu">Menü-Leiste</a></li>
+        <li><a href="#settings">Einstellungen</a></li>
+        <li><a href="#buttons">Button-Spalte</a></li>
+        <li><a href="#gui">Tagesübersicht-Fenster</a></li>
+      </ul>
+    <li><a href="#xml-edit">XML-Dateien bearbeiten</a></li>
+  </ul>
+  
+  <h2><a id="functions">Funktionen</a></h2>
+  <p>Die Software wird über die Menü-Leiste, die Button-Spalte auf der linken Seite, sowie die Tagesübersicht-Fenster gesteuert.</p>
+
+  <h3><a id="menu">Menü-Leiste</a></h3>
+  <p>Die Menü-Leiste enthält Schaltflächen zum <b>Einlesen</b>, zur <b>Ausgabe</b>, sowie für die <b>Optionen</b>.</p>
+  <h4>Einlesen</h4>
+  <p>Das Programm liest die XML-Daten von der angegebenen Quelle ein und speichert sie. Als Quelle stehen <b>von SmartPix</b> (Strg + R) und 
+    <b>aus Datei...</b> (Strg + F) zur Verfügung.<br/>
+    Bei ersterer Option (<b>von SmartPix</b>) greift das Programm auf den unter <b>Einstellungen</b> angegebenen Pfad für das SmartPix-Gerät 
+    zu und liest die Daten ein, sowie speichert den Report unter dem Pfad <em>reports</em>.<br/>
+    Bei zweiterer Option (<b>aus Datei...</b>) fragt das Programm vom Nutzer eine XML-Datei ab, die eingelesen werden soll. Für einen 
+    alten Report finden Sie die XML-Dateien im Verzeichnis <em>reports/"DATUM"/xml/</em>.</p>
+  <h4>Ausgabe</h4>
+  <p>Als Ausgabeformate steht <b>als PDF...</b> (Strg + P) zur Verfügung. Nach Eingabe des gewünschten Zeitraums für
+    das Tagebuch wird die PDF-Datei im Verzeichnis <em>pdf</em> unter dem Namen <em>startdatum-enddatum.pdf</em>
+    gespeichert (Datumsformat jeweils JJJJ-MM-TT).</p>
+  <h4>Optionen</h4>
+  <p>Unter Optionen stehen die <b>Einstellungen</b>, allgemeine Informationen <b>über DiabetesDoc</b> und diese <b>Hilfe</b> zur Verfügung. <br />
+    Die Bedeutung der einzelnen Einstellungen ergibt sich wie folgt:</p>
+  <table>
+    <tr><td><b>SmartPix-Directory:</b></td><td>Der Pfad an dem sich das SmartPix-Gerät befindet.</td></tr>
+    <tr><td><b>Username:</b></td>          <td>Der Nutzername für die Ausgabe (kann auch leer bleiben).</td></tr>
+    <tr><td><b>Geburtstag:</b></td>        <td>Der Geburtstag des Nutzers für die Ausgabe (kann auch leer bleiben).</td></tr>
+  </table>
+
+  <h3><a id="buttons">Button-Spalte</a></h3>
+  <p>In der Button-Spalte werden alle eigelesenen Tage angezeigt. Durch Klick auf einen Tag öffnet sich für diesen ein Tagesübersicht-Fenster.</p>
+  <h3><a id="gui">Tagesübersicht-Fenster</a></h3>
+  <p>Im Tagesübersicht-Fenster werden für den durch die <em>Button-Leiste</em> ausgewählten Tag die XML-Datei, eine Tabellenübersicht und eine
+    Blutzuckerübersicht in Bildform angezeigt. Im oberen Text-Bereich können die XML-Daten angepasst werden (siehe dazu 
+    <a href="#xml-edit">XML-Dateien bearbeiten</a>). Das Menü hat folgende Schaltflächen und Bedeutungen:</p>
+  <table>
+    <tr><td><b>Datei | Speichern (Strg + S):</b></td>         <td>Speichert die (u.U. bearbeitete) XML-Datei, wie sie im Fenster angezeigt wird.</td></tr>
+    <tr><td><b>Datei | Datei Schließen (Strg + F4):</b></td>  <td>Schließt die XML-Datei und das Tagesübersicht-Fenster.</td></tr>
+    <tr><td><b>Bearbeiten | Rückgängig (Strg + Z):</b></td>   <td>Macht die letzte Bearbeitung der XML-Daten im Fenster rückgängig.</td></tr>
+    <tr><td><b>Bearbeiten | Wiederholen (Strg + Y):</b></td>  <td>Wiederholt die letzte Bearbeitung der XML-Daten im Fenster.</td></tr>
+    <tr><td><b>Bearbeiten | Ausschneiden (Strg + X):</b></td> <td>Schneidet den ausgewählten Bereich der XML-Daten aus.</td></tr>
+    <tr><td><b>Bearbeiten | Kopieren (Strg + C):</b></td>     <td>Kopiert den ausgewählten Bereich der XML-Daten aus.</td></tr>
+    <tr><td><b>Bearbeiten | Einfügen (Strg + V):</b></td>     <td>Fügt den Text aus der Zwischenablage im ausgewählten Bereich der XML-Daten ein.</td></tr>
+    <tr><td><b>Bearbeiten | BG hinzufügen:</b></td>           <td>Fügt ein BG-Tag im ausgewählten Bereich der XML-Daten hinzu.</td></tr>
+    <tr><td><b>Bearbeiten | BOLUS hinzufügen:</b></td>        <td>Fügt ein BOLUS-Tag im ausgewählten Bereich der XML-Daten hinzu.</td></tr>
+    <tr><td><b>Bearbeiten | BASAL hinzufügen:</b></td>        <td>Fügt ein BASAL-Tag im ausgewählten Bereich der XML-Daten hinzu.</td></tr>
+    <tr><td><b>Bearbeiten | EVENT hinzufügen:</b></td>        <td>Fügt ein EVENT-Tag im ausgewählten Bereich der XML-Daten hinzu.</td></tr>
+  </table>
+
+  <h2><a id="xml-edit">XML-Dateien bearbeiten</a></h2>
+  <p>Dieser Abschnitt beschreibt weiterführende Bearbeitungsmöglichkeiten der XML-Daten. Dafür sind grundlegende XML-Kentnisse nötig.
+    <br><span style="color:red;">Da diese Funktionalität noch nicht vollständig im Programm integriert ist, folgt eine genauere Beschreibung 
+      in einer späteren Version.</span></p>
+</body>
+</html>
